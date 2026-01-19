@@ -15,6 +15,25 @@ function index(req, res, next) {
 }
 
 function show(req, res, next) {
+    const id = req.params.id;
+    const movieQuery = `SELECT * FROM movies WHERE id = ?`
+
+    connection.query(movieQuery, [id], (err, movieResult) => {
+        if (err) return next(err)
+
+        const movie = movieResult;
+
+        const reviewsQuery = `SELECT * FROM reviews WHERE movie_id = ?`
+        connection.query(reviewsQuery, [id], (err, reviewsResult) => {
+            if (err) return next(err)
+
+            res.status(200);
+            res.json({
+                ...movie,
+                reviews: reviewsResult,
+            })
+        })
+    })
 
 }
 
