@@ -1,5 +1,6 @@
 import express from "express";
 import controller from "../controllers/movieController.js";
+import errorHandler from "../middlewares/errorHandler.js";
 const router = express.Router();
 
 
