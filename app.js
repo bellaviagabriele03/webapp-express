@@ -12,9 +12,9 @@ app.use(cors({
     origin: "http://localhost:5173",
 }));
 
-app.use(express.json())
-app.use(express.static("public"))
 
+app.use(express.static("public"))
+app.use(express.json())
 
 
 app.use("/api/movies", router)
@@ -27,7 +27,7 @@ app.use(routeNotFound)
 
 app.listen(port, (err) => {
     if (err) throw err;
-    
+
     console.log(`Server in ascolto sulla porta: ${port}`);
 
 })
