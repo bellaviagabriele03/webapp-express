@@ -10,7 +10,7 @@ router.get("/", controller.index)
 // SHOW
 router.get("/:id", controller.show)
 // STORE
-router.post("/reviews", controller.store)
+router.post("/:id/reviews", controller.storeReviews)
 // UPDATE
 
 // MODIFY

@@ -44,13 +44,43 @@ function show(req, res, next) {
 
 }
 
-//STORE - CREATE A NEW MOVIE
-function store(req, res, next) {
-    // const data = req.body;
-    // const query = `INSERT INTO reviews (name, vote, text) VALUES (?, ?, ?)`
+//STORE - CREATE NEW REVIEWS
+function storeReviews(req, res, next) {
+    const data = req.body;
+    const movieId = req.params.id
 
-    console.log("aggiungo nuova review");
-    
+
+    const movieQuery = `SELECT * FROM movies WHERE id = ?`;
+    connection.query(movieQuery, [movieId], (err, result) => {
+        if (err) return next(err)
+        if (result.length === 0) {
+            return res.json({
+                err: "404 movie not found",
+                message: "ask the movie_id to Loris is better :)"
+            })
+        }
+
+        const reviewsQuery = "INSERT INTO `reviews` (`movie_id`, `name`, `vote`, `text`) VALUES (?, ?, ?, ?)";
+
+        connection.query(reviewsQuery, [movieId, data.name, data.vote, data.text], (err, result) => {
+            if (err) return next(err);
+
+            res.status(201)
+            res.json({
+                message: "add new review !!",
+                revId: result.insertId
+            })
+        })
+
+
+    })
+
+
+
+
+
+
+
 }
 
 
@@ -73,7 +103,7 @@ function destroy(req, res, next) {
 const controller = {
     index,
     show,
-    store,
+    storeReviews,
     update,
     modify,
     destroy
